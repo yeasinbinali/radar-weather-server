@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -30,9 +30,23 @@ async function run() {
             res.send(result);
         })
 
+        app.get('/favouriteList/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await favouriteListCollection.findOne(query);
+            res.send(result);
+        })
+
         app.post('/favouriteList', async (req, res) => {
             const favouriteOne = req.body;
             const result = await favouriteListCollection.insertOne(favouriteOne);
+            res.send(result);
+        })
+
+        app.delete('/favouriteList/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await favouriteListCollection.deleteOne(query);
             res.send(result);
         })
 
