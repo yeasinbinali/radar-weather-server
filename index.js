@@ -6,12 +6,15 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // middleware
-app.use(cors({
+const corsOptions ={
     origin: [
-        // "http://localhost:5173",
-        "https://radar-weather.netlify.app"
-    ]
-}));
+        'http://localhost:5173',
+        'https://radar-weather.netlify.app'
+    ],
+    credentials:true,           
+    optionSuccessStatus:200
+}
+app.use(cors(corsOptions));
 app.use(express.json());
 
 
